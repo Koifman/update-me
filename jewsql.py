@@ -24,7 +24,7 @@ class Database:
 		self.cur.execute('SELECT ID FROM posts')
 		return self.cur.fetchall()
 	def user_has_subreddit(self, username, subreddit):
-		data = self.get_user_values('users')
+		data = self.get_user_values()
 		for row in data:
 			if str(row[0]).lower() == username.lower():
 				temp = row[1].split(',')
@@ -43,7 +43,7 @@ class Database:
 		self.cur.execute("UPDATE users SET Subreddits='{}' WHERE Username='{}'".format(temp[0] + ',' + subreddit,  username))
 		self.con.commit()
 	def delete_user_subreddit(self, username, subreddit):
-		data = self.get_user_values('users')
+		data = self.get_user_values()
 		for row in data:
 			if str(row[0]).lower() == username.lower():
 				subreddits = row[1].split(',')
@@ -60,8 +60,11 @@ class Database:
 		try:
 			if not self.user_has_subreddit(username, subreddit):
 				self.add_user_subreddit(username, subreddit)
+				print(username, 'added', subreddit, 'to their list of subscribed subreddits.')
 		except TypeError:
-			self.cur.execute("INSERT INTO users VALUES('{}', '{}')".format(username,subreddit))
+			if not self.user_has_subreddit(username, subreddit):
+				self.cur.execute("INSERT INTO users VALUES('{}', '{}')".format(username,subreddit))
+				print(username, 'was added to the database and followed', subreddit)
 		self.con.commit()
 	def insert_post(self, postId):
 		self.cur.execute("INSERT INTO posts VALUES('{}')".format(postId))
@@ -73,10 +76,10 @@ class Database:
 
 		
 if __name__ == '__main__':
-	database = Database('DATABASE_NAME')
+	database = Database('jewsofhazard')
 	#database.create_table()
-	#database.insert_values('USER','SUBREDDIT')
-	data = database.get_user_values('users')
+	#database.insert_values('Jacobx89','pcmrtwitch')
+	data = database.get_user_values()
 	
 	for row in data:
 		print(row[0],row[1])

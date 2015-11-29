@@ -5,6 +5,12 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
+# OAuth config file
+oauth.ini
+
+# Database
+jewsofhazard.db
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
