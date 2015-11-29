@@ -8,6 +8,9 @@ Desktop.ini
 # OAuth config file
 oauth.ini
 
+# Notified Users
+notified_users.txt
+
 # Database
 jewsofhazard.db
 
